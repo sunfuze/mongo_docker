@@ -1,0 +1,12 @@
+master:
+  image: mongo:2.7.8
+  volumes:
+    - /data/mongodbtest/master:/data/db
+  command: mongod --dbpath /data/db  --master
+slave:
+  image: mongo:2.7.8
+  volumes:
+    - /data/mongodbtest/slave:/data/db
+  command: mongod --dbpath /data/db --slave --source master:27017
+  links:
+    - master

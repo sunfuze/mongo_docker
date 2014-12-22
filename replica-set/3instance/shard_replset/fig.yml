@@ -1,0 +1,19 @@
+primary:
+  hostname: primary
+  image: mongo:2.7.8
+  volumes:
+    - /data/mongodbtest/primary:/data/db
+  command: mongod --dbpath /data/db --shardsvr --replSet shard --nojournal --port 27017 --oplogSize 64
+  expose:
+    - "27017"
+    - "28017"
+  ports:
+    - "28017:28017"
+secondary:
+  image: mongo:2.7.8
+  volumes:
+    - /data/mongodbtest/secondary:/data/db
+  command: mongod --dbpath /data/db --shardsvr --replSet shard --nojournal --port 27017 --oplogSize 64
+arbiter:
+  image: mongo:2.7.8
+  command: mongod --dbpath /data/db --shardsvr --replSet shard --port 27017 --smallfiles --oplogSize 10
